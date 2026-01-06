@@ -38,9 +38,9 @@ public class AppointmentController {
 
     @FXML
     public void initialize() {
-        appointmentService = new AppointmentService(HealthcareApp.getConnection());
-        patientService = new PatientService(HealthcareApp.getConnection());
-        doctorService = new DoctorService(HealthcareApp.getConnection());
+        appointmentService = AppointmentService.getInstance(HealthcareApp.getConnection());
+        patientService = PatientService.getInstance(HealthcareApp.getConnection());
+        doctorService = DoctorService.getInstance(HealthcareApp.getConnection());
 
         colId.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         colPatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));

@@ -13,6 +13,13 @@
     
     <Label text="Department Management" styleClass="title-label"/>
     
+    <!-- Search Bar -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="txtSearch" promptText="🔍 Search by name, description, or ID..." HBox.hgrow="ALWAYS" style="-fx-pref-height: 40;"/>
+        <Button text="Search" onAction="#handleSearch" styleClass="btn, btn-primary"/>
+        <Button text="Clear" onAction="#handleClearSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 20;"/>
+    </HBox>
+    
     <VBox styleClass="card" spacing="15">
         <Label text="Department Information" styleClass="section-label"/>
         

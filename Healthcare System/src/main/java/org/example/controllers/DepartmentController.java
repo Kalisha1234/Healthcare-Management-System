@@ -7,7 +7,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.HealthcareApp;
 import org.example.models.Department;
 import org.example.services.DepartmentService;
+import org.example.utils.SearchUtil;
 import org.example.utils.ValidationException;
+
+import java.util.List;
 
 public class DepartmentController {
     @FXML private TableView<Department> departmentTable;
@@ -17,17 +20,47 @@ public class DepartmentController {
 
     @FXML private TextField txtName;
     @FXML private TextArea txtDescription;
+    @FXML private TextField txtSearch;
 
     private DepartmentService departmentService;
+    private List<Department> allDepartments;
 
     @FXML
     public void initialize() {
-        departmentService = new DepartmentService(HealthcareApp.getConnection());
+        departmentService = DepartmentService.getInstance(HealthcareApp.getConnection());
 
         colId.setCellValueFactory(new PropertyValueFactory<>("departmentID"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
 
+        loadDepartments();
+    }
+
+    @FXML
+    private void handleSearch() {
+        try {
+            String query = txtSearch.getText();
+            
+            // Ensure data is loaded
+            if (allDepartments == null) {
+                allDepartments = departmentService.getAllDepartments();
+            }
+            
+            if (query == null || query.trim().isEmpty()) {
+                departmentTable.setItems(FXCollections.observableArrayList(allDepartments));
+                return;
+            }
+            
+            List<Department> filtered = SearchUtil.searchDepartments(allDepartments, query);
+            departmentTable.setItems(FXCollections.observableArrayList(filtered));
+        } catch (Exception e) {
+            showAlert("Error", "Search failed: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void handleClearSearch() {
+        txtSearch.clear();
         loadDepartments();
     }
 
@@ -97,7 +130,8 @@ public class DepartmentController {
 
     private void loadDepartments() {
         try {
-            departmentTable.setItems(FXCollections.observableArrayList(departmentService.getAllDepartments()));
+            allDepartments = departmentService.getAllDepartments();
+            departmentTable.setItems(FXCollections.observableArrayList(allDepartments));
         } catch (Exception e) {
             showAlert("Error", "Failed to load departments: " + e.getMessage(), Alert.AlertType.ERROR);
         }
