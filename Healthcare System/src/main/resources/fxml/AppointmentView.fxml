@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="org.example.controllers.AppointmentController" 
+      spacing="20" style="-fx-background-color: #f5f7fa;">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+    
+    <Label text="Appointment Management" styleClass="title-label"/>
+    
+    <VBox styleClass="card" spacing="15">
+        <Label text="Schedule Appointment" styleClass="section-label"/>
+        
+        <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+            </columnConstraints>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <Label text="Patient *"/>
+                <ComboBox fx:id="cbPatient" promptText="Select patient" maxWidth="Infinity"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <Label text="Doctor *"/>
+                <ComboBox fx:id="cbDoctor" promptText="Select doctor" maxWidth="Infinity"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                <Label text="Date *"/>
+                <DatePicker fx:id="dpDate" promptText="Select date" maxWidth="Infinity"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="3">
+                <Label text="Time (HH:MM) *"/>
+                <TextField fx:id="txtTime" promptText="10:30"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <Label text="Status *"/>
+                <ComboBox fx:id="cbStatus" promptText="Select status" maxWidth="Infinity"/>
+            </VBox>
+        </GridPane>
+        
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <Button text="📅 Schedule" styleClass="btn, btn-success" onAction="#handleAdd"/>
+            <Button text="✏️ Update" styleClass="btn, btn-primary" onAction="#handleUpdate"/>
+            <Button text="❌ Cancel" styleClass="btn, btn-warning" onAction="#handleCancel"/>
+            <Button text="🗑️ Delete" styleClass="btn, btn-danger" onAction="#handleDelete"/>
+        </HBox>
+    </VBox>
+    
+    <VBox styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Appointment Records" styleClass="section-label">
+            <VBox.margin>
+                <Insets bottom="15"/>
+            </VBox.margin>
+        </Label>
+        
+        <TableView fx:id="appointmentTable" onMouseClicked="#handleTableClick" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colPatientName" text="Patient Name" prefWidth="180"/>
+                <TableColumn fx:id="colDoctorName" text="Doctor Name" prefWidth="180"/>
+                <TableColumn fx:id="colDate" text="Date" prefWidth="120"/>
+                <TableColumn fx:id="colTime" text="Time" prefWidth="100"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>
