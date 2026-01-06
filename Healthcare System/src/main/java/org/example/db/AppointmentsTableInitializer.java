@@ -15,7 +15,7 @@ public class AppointmentsTableInitializer {
                     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
-                    FOREIGN KEY (DoctorID) REFERENCES Dcotors(DoctorID)
+                    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
                 )
                 """;
                 
