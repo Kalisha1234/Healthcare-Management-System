@@ -5,6 +5,7 @@ import java.sql.Connection;
 public class DatabaseInitializer {
     public static void initializeAll(Connection conn) {
         // Initialize tables in order respecting foreign key dependencies
+        UsersTableInitializer.initialize(conn);
         DepartmentsTableInitializer.initialize(conn);
         PatientTableInitializer.initialize(conn);
         DoctorTableInitializer.initialize(conn);
