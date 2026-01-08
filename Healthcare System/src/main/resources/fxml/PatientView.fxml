@@ -76,6 +76,8 @@
             <Button text="➕ Add Patient" styleClass="btn, btn-success" onAction="#handleAdd"/>
             <Button text="✏️ Update" styleClass="btn, btn-primary" onAction="#handleUpdate"/>
             <Button text="🗑️ Delete" styleClass="btn, btn-danger" onAction="#handleDelete"/>
+            <Button text="📝 Add Note" styleClass="btn, btn-info" onAction="#handleAddNote" style="-fx-background-color: #3498db;"/>
+            <Button text="📋 View Notes" styleClass="btn, btn-info" onAction="#handleViewNotes" style="-fx-background-color: #9b59b6;"/>
         </HBox>
     </VBox>
     
