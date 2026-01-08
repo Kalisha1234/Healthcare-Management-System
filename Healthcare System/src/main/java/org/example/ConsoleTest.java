@@ -21,10 +21,10 @@ public class ConsoleTest {
             System.out.println("=== Tables Initialized ===\n");
 
             // Initialize services
-            DepartmentService departmentService = new DepartmentService(conn);
-            PatientService patientService = new PatientService(conn);
-            DoctorService doctorService = new DoctorService(conn);
-            AppointmentService appointmentService = new AppointmentService(conn);
+            DepartmentService departmentService = DepartmentService.getInstance(conn);
+            PatientService patientService = PatientService.getInstance(conn);
+            DoctorService doctorService = DoctorService.getInstance(conn);
+            AppointmentService appointmentService = AppointmentService.getInstance(conn);
 
             // Test Department
             System.out.println("--- Testing Department Service ---");

@@ -7,7 +7,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.HealthcareApp;
 import org.example.models.Patient;
 import org.example.services.PatientService;
+import org.example.utils.SearchUtil;
 import org.example.utils.ValidationException;
+
+import java.util.List;
 
 
 public class PatientController {
@@ -25,12 +28,15 @@ public class PatientController {
     @FXML private TextField txtEmail;
     @FXML private TextField txtPhone;
     @FXML private TextArea txtAddress;
+    @FXML private TextField txtSearch;
+    @FXML private Label lblCacheStatus;
 
     private PatientService patientService;
+    private List<Patient> allPatients;
 
     @FXML
     public void initialize() {
-        patientService = new PatientService(HealthcareApp.getConnection());
+        patientService = PatientService.getInstance(HealthcareApp.getConnection());
 
         // Setup table columns
         colId.setCellValueFactory(new PropertyValueFactory<>("patientID"));
@@ -42,6 +48,35 @@ public class PatientController {
         // Setup gender combo box
         cbGender.setItems(FXCollections.observableArrayList("Male", "Female", "Other"));
 
+        loadPatients();
+        updateCacheStatus();
+    }
+
+    @FXML
+    private void handleSearch() {
+        try {
+            String query = txtSearch.getText();
+            
+            // Ensure data is loaded
+            if (allPatients == null) {
+                allPatients = patientService.getAllPatients();
+            }
+            
+            if (query == null || query.trim().isEmpty()) {
+                patientTable.setItems(FXCollections.observableArrayList(allPatients));
+                return;
+            }
+            
+            List<Patient> filtered = SearchUtil.searchPatients(allPatients, query);
+            patientTable.setItems(FXCollections.observableArrayList(filtered));
+        } catch (Exception e) {
+            showAlert("Error", "Search failed: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void handleClearSearch() {
+        txtSearch.clear();
         loadPatients();
     }
 
@@ -131,10 +166,20 @@ public class PatientController {
 
     private void loadPatients() {
         try {
-            patientTable.setItems(FXCollections.observableArrayList(patientService.getAllPatients()));
+            allPatients = patientService.getAllPatients();
+            patientTable.setItems(FXCollections.observableArrayList(allPatients));
+            updateCacheStatus();
         } catch (Exception e) {
             showAlert("Error", "Failed to load patients: " + e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    private void updateCacheStatus() {
+        try {
+            lblCacheStatus.setText("Cache: " + patientService.getCacheStatus());
+        } catch (Exception e) {
+            lblCacheStatus.setText("Cache: Error");
+            }
     }
 
     private void clearForm() {

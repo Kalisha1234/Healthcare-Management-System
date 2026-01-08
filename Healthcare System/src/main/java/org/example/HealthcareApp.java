@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.config.DBConfig;
 import org.example.db.DatabaseInitializer;
+import org.example.utils.DataSeeder;
 
 import java.sql.Connection;
 
@@ -18,6 +19,9 @@ public class HealthcareApp extends Application {
         DBConfig dbConfig = new DBConfig();
         connection = dbConfig.connect();
         DatabaseInitializer.initializeAll(connection);
+        
+        // Seed sample data
+//        DataSeeder.seedData(connection);
 
         // Load login view
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));

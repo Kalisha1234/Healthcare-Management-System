@@ -26,10 +26,10 @@ public class ConsoleApp {
             DatabaseInitializer.initializeAll(conn);
 
             // Initialize services
-            departmentService = new DepartmentService(conn);
-            patientService = new PatientService(conn);
-            doctorService = new DoctorService(conn);
-            appointmentService = new AppointmentService(conn);
+            departmentService = DepartmentService.getInstance(conn);
+            patientService = PatientService.getInstance(conn);
+            doctorService = DoctorService.getInstance(conn);
+            appointmentService = AppointmentService.getInstance(conn);
 
             // Main menu loop
             boolean running = true;

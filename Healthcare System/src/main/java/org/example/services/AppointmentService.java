@@ -9,10 +9,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AppointmentService {
+    private static AppointmentService instance;
     private AppointmentDAO appointmentDAO;
 
-    public AppointmentService(Connection conn) {
+    private AppointmentService(Connection conn) {
         this.appointmentDAO = new AppointmentDAO(conn);
+    }
+
+    public static AppointmentService getInstance(Connection conn) {
+        if (instance == null) {
+            instance = new AppointmentService(conn);
+        }
+        return instance;
     }
 
     public void scheduleAppointment(Appointment appointment) throws SQLException, ValidationException {

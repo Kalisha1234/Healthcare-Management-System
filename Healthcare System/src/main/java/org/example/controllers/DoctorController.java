@@ -9,7 +9,10 @@ import org.example.models.Doctor;
 import org.example.models.DepartmentItem;
 import org.example.services.DoctorService;
 import org.example.services.DepartmentService;
+import org.example.utils.SearchUtil;
 import org.example.utils.ValidationException;
+
+import java.util.List;
 
 public class DoctorController {
     @FXML private TableView<Doctor> doctorTable;
@@ -25,14 +28,16 @@ public class DoctorController {
     @FXML private TextField txtPhone;
     @FXML private TextField txtEmail;
     @FXML private DatePicker dpHireDate;
+    @FXML private TextField txtSearch;
 
     private DoctorService doctorService;
     private DepartmentService departmentService;
+    private List<Doctor> allDoctors;
 
     @FXML
     public void initialize() {
-        doctorService = new DoctorService(HealthcareApp.getConnection());
-        departmentService = new DepartmentService(HealthcareApp.getConnection());
+        doctorService = DoctorService.getInstance(HealthcareApp.getConnection());
+        departmentService = DepartmentService.getInstance(HealthcareApp.getConnection());
 
         colId.setCellValueFactory(new PropertyValueFactory<>("doctorID"));
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -41,6 +46,34 @@ public class DoctorController {
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
         loadDepartments();
+        loadDoctors();
+    }
+
+    @FXML
+    private void handleSearch() {
+        try {
+            String query = txtSearch.getText();
+            
+            // Ensure data is loaded
+            if (allDoctors == null) {
+                allDoctors = doctorService.getAllDoctors();
+            }
+            
+            if (query == null || query.trim().isEmpty()) {
+                doctorTable.setItems(FXCollections.observableArrayList(allDoctors));
+                return;
+            }
+            
+            List<Doctor> filtered = SearchUtil.searchDoctors(allDoctors, query);
+            doctorTable.setItems(FXCollections.observableArrayList(filtered));
+        } catch (Exception e) {
+            showAlert("Error", "Search failed: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void handleClearSearch() {
+        txtSearch.clear();
         loadDoctors();
     }
 
@@ -134,7 +167,8 @@ public class DoctorController {
 
     private void loadDoctors() {
         try {
-            doctorTable.setItems(FXCollections.observableArrayList(doctorService.getAllDoctors()));
+            allDoctors = doctorService.getAllDoctors();
+            doctorTable.setItems(FXCollections.observableArrayList(allDoctors));
         } catch (Exception e) {
             showAlert("Error", "Failed to load doctors: " + e.getMessage(), Alert.AlertType.ERROR);
         }
