@@ -14,5 +14,8 @@ public class DatabaseInitializer {
         PrescriptionItemsTableInitializer.initialize(conn);
         PatientFeedbackTableInitializer.initialize(conn);
         MedicalInventoryTableInitializer.initialize(conn);
+        
+        // Create indexes for performance
+        DatabaseIndexInitializer.initialize(conn);
     }
 }

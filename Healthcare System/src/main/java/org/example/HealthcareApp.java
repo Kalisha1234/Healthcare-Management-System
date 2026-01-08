@@ -21,7 +21,7 @@ public class HealthcareApp extends Application {
         DatabaseInitializer.initializeAll(connection);
         
         // Seed sample data
-        DataSeeder.seedData(connection);
+//        DataSeeder.seedData(connection);
 
         // Load login view
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));
