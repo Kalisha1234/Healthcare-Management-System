@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="org.example.controllers.DoctorController" 
+      spacing="20" style="-fx-background-color: #f5f7fa;">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+    
+    <Label text="Doctor Management" styleClass="title-label"/>
+    
+    <!-- Search Bar -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="txtSearch" promptText="🔍 Search by name, email, phone, or ID..." HBox.hgrow="ALWAYS" style="-fx-pref-height: 40;"/>
+        <Button text="Search" onAction="#handleSearch" styleClass="btn, btn-primary"/>
+        <Button text="Clear" onAction="#handleClearSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 20;"/>
+    </HBox>
+    
+    <VBox styleClass="card" spacing="15">
+        <Label text="Doctor Information" styleClass="section-label"/>
+        
+        <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="34"/>
+            </columnConstraints>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <Label text="First Name *"/>
+                <TextField fx:id="txtFirstName" promptText="Enter first name"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <Label text="Last Name *"/>
+                <TextField fx:id="txtLastName" promptText="Enter last name"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="2">
+                <Label text="Department *"/>
+                <ComboBox fx:id="cbDepartment" promptText="Select department" maxWidth="Infinity"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <Label text="Phone *"/>
+                <TextField fx:id="txtPhone" promptText="1234567890"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <Label text="Email *"/>
+                <TextField fx:id="txtEmail" promptText="doctor@hospital.com"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="2">
+                <Label text="Hire Date *"/>
+                <DatePicker fx:id="dpHireDate" promptText="Select date" maxWidth="Infinity"/>
+            </VBox>
+        </GridPane>
+        
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <Button text="➕ Add Doctor" styleClass="btn, btn-success" onAction="#handleAdd"/>
+            <Button text="✏️ Update" styleClass="btn, btn-primary" onAction="#handleUpdate"/>
+            <Button text="🗑️ Delete" styleClass="btn, btn-danger" onAction="#handleDelete"/>
+        </HBox>
+    </VBox>
+    
+    <VBox styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Doctor Records" styleClass="section-label">
+            <VBox.margin>
+                <Insets bottom="15"/>
+            </VBox.margin>
+        </Label>
+        
+        <TableView fx:id="doctorTable" onMouseClicked="#handleTableClick" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colFirstName" text="First Name" prefWidth="150"/>
+                <TableColumn fx:id="colLastName" text="Last Name" prefWidth="150"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                <TableColumn fx:id="colPhone" text="Phone" prefWidth="130"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

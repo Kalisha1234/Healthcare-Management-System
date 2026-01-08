@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="org.example.controllers.DepartmentController" 
+      spacing="20" style="-fx-background-color: #f5f7fa;">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+    
+    <Label text="Department Management" styleClass="title-label"/>
+    
+    <!-- Search Bar -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="txtSearch" promptText="🔍 Search by name, description, or ID..." HBox.hgrow="ALWAYS" style="-fx-pref-height: 40;"/>
+        <Button text="Search" onAction="#handleSearch" styleClass="btn, btn-primary"/>
+        <Button text="Clear" onAction="#handleClearSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 20;"/>
+    </HBox>
+    
+    <VBox styleClass="card" spacing="15">
+        <Label text="Department Information" styleClass="section-label"/>
+        
+        <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50"/>
+                <ColumnConstraints percentWidth="50"/>
+            </columnConstraints>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <Label text="Department Name *"/>
+                <TextField fx:id="txtName" promptText="Enter department name"/>
+            </VBox>
+            
+            <VBox spacing="5" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <Label text="Description"/>
+                <TextArea fx:id="txtDescription" promptText="Enter description" prefRowCount="3"/>
+            </VBox>
+        </GridPane>
+        
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <Button text="➕ Add Department" styleClass="btn, btn-success" onAction="#handleAdd"/>
+            <Button text="✏️ Update" styleClass="btn, btn-primary" onAction="#handleUpdate"/>
+            <Button text="🗑️ Delete" styleClass="btn, btn-danger" onAction="#handleDelete"/>
+        </HBox>
+    </VBox>
+    
+    <VBox styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Department Records" styleClass="section-label">
+            <VBox.margin>
+                <Insets bottom="15"/>
+            </VBox.margin>
+        </Label>
+        
+        <TableView fx:id="departmentTable" onMouseClicked="#handleTableClick" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="80"/>
+                <TableColumn fx:id="colName" text="Name" prefWidth="250"/>
+                <TableColumn fx:id="colDescription" text="Description" prefWidth="450"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

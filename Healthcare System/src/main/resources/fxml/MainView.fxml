@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+            fx:controller="org.example.controllers.MainController" 
+            fx:id="mainPane" stylesheets="@styles.css">
+    
+    <!-- Sidebar Navigation -->
+    <left>
+        <VBox styleClass="sidebar" spacing="10" prefWidth="220">
+            <padding>
+                <Insets top="20" right="15" bottom="20" left="15"/>
+            </padding>
+            
+            <Text text="Healthcare System" style="-fx-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="30"/>
+                </VBox.margin>
+            </Text>
+            
+            <Button text="📊 Dashboard" styleClass="nav-button" maxWidth="Infinity" onAction="#showDashboard"/>
+            <Button text="👥 Users" styleClass="nav-button" maxWidth="Infinity" onAction="#showUsers"/>
+            <Button text="🏥 Departments" styleClass="nav-button" maxWidth="Infinity" onAction="#showDepartments"/>
+            <Button text="👤 Patients" styleClass="nav-button" maxWidth="Infinity" onAction="#showPatients"/>
+            <Button text="👨‍⚕️ Doctors" styleClass="nav-button" maxWidth="Infinity" onAction="#showDoctors"/>
+            <Button text="📅 Appointments" styleClass="nav-button" maxWidth="Infinity" onAction="#showAppointments"/>
+            
+            <Region VBox.vgrow="ALWAYS"/>
+            
+            <Button text="⚙️ Settings" styleClass="nav-button" maxWidth="Infinity"/>
+            <Button text="🚪 Logout" styleClass="nav-button" maxWidth="Infinity" onAction="#handleLogout"/>
+        </VBox>
+    </left>
+    
+    <!-- Main Content Area -->
+    <center>
+        <StackPane style="-fx-background-color: #f5f7fa;">
+            <VBox alignment="CENTER" spacing="20">
+                <Text text="Welcome to Healthcare Management System" styleClass="title-label"/>
+                <Text text="Select a module from the sidebar to get started" style="-fx-font-size: 16px; -fx-fill: #7f8c8d;"/>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="org.example.controllers.LoginController">
+    
+    <!-- Left Side - Branding -->
+    <VBox alignment="CENTER" spacing="30" HBox.hgrow="ALWAYS" 
+          style="-fx-background-color: linear-gradient(to bottom right, #2c3e50, #34495e, #2c3e50); -fx-padding: 60;">
+        
+        <VBox alignment="CENTER" spacing="20">
+            <Text text="🏥" style="-fx-font-size: 80px;"/>
+            <Text text="Healthcare Management System" 
+                  style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-fill: white; -fx-text-alignment: center;" 
+                  wrappingWidth="350"/>
+            <Text text="Streamline your healthcare operations with our comprehensive management solution" 
+                  style="-fx-font-size: 14px; -fx-fill: #bdc3c7; -fx-text-alignment: center;" 
+                  wrappingWidth="350"/>
+        </VBox>
+        
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Text text="✓" style="-fx-font-size: 20px; -fx-fill: #27ae60;"/>
+                <Text text="Patient Management" style="-fx-font-size: 14px; -fx-fill: white;"/>
+            </HBox>
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Text text="✓" style="-fx-font-size: 20px; -fx-fill: #27ae60;"/>
+                <Text text="Appointment Scheduling" style="-fx-font-size: 14px; -fx-fill: white;"/>
+            </HBox>
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Text text="✓" style="-fx-font-size: 20px; -fx-fill: #27ae60;"/>
+                <Text text="Doctor &amp; Staff Management" style="-fx-font-size: 14px; -fx-fill: white;"/>
+            </HBox>
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Text text="✓" style="-fx-font-size: 20px; -fx-fill: #27ae60;"/>
+                <Text text="Department Organization" style="-fx-font-size: 14px; -fx-fill: white;"/>
+            </HBox>
+        </VBox>
+    </VBox>
+    
+    <!-- Right Side - Login Form -->
+    <VBox alignment="CENTER" spacing="30" HBox.hgrow="ALWAYS" 
+          style="-fx-background-color: #f5f7fa; -fx-padding: 60;">
+        
+        <VBox alignment="CENTER" spacing="10">
+            <Text text="Welcome Back!" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            <Text text="Please login to your account" style="-fx-font-size: 14px; -fx-fill: #7f8c8d;"/>
+        </VBox>
+        
+        <VBox spacing="20" maxWidth="380" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 3);">
+            
+            <VBox spacing="8">
+                <Label text="Username" style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+                <TextField fx:id="txtUsername" promptText="Enter your username" 
+                          style="-fx-pref-height: 45; -fx-font-size: 14px;"/>
+            </VBox>
+            
+            <VBox spacing="8">
+                <Label text="Password" style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+                <PasswordField fx:id="txtPassword" promptText="Enter your password" 
+                              style="-fx-pref-height: 45; -fx-font-size: 14px;" 
+                              onAction="#handleLogin"/>
+            </VBox>
+            
+            <Label fx:id="lblError" textFill="#e74c3c" wrapText="true" 
+                   style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
+            
+            <VBox spacing="12">
+                <Button text="Login" onAction="#handleLogin" maxWidth="Infinity" 
+                       styleClass="btn, btn-primary" 
+                       style="-fx-pref-height: 50; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+                <Button text="Exit Application" onAction="#handleExit" maxWidth="Infinity" 
+                       style="-fx-background-color: transparent; -fx-text-fill: #7f8c8d; -fx-border-color: #dfe6e9; -fx-border-width: 2; -fx-border-radius: 6; -fx-background-radius: 6; -fx-pref-height: 45; -fx-cursor: hand;"/>
+            </VBox>
+        </VBox>
+        
+        <VBox alignment="CENTER" spacing="8" maxWidth="380">
+            <VBox.margin>
+                <Insets top="10"/>
+            </VBox.margin>
+            <style>
+                -fx-background-color: #e8f4f8;
+                -fx-padding: 20;
+                -fx-background-radius: 10;
+                -fx-border-color: #3498db;
+                -fx-border-width: 1;
+                -fx-border-radius: 10;
+            </style>
+            <HBox spacing="8" alignment="CENTER">
+                <Text text="ℹ️" style="-fx-font-size: 16px;"/>
+                <Text text="Default Login Credentials" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-fill: #2c3e50;"/>
+            </HBox>
+            <Text text="Username: admin  |  Password: admin123" 
+                  style="-fx-font-size: 12px; -fx-fill: #34495e; -fx-font-weight: 600;"/>
+        </VBox>
+    </VBox>
+</HBox>
