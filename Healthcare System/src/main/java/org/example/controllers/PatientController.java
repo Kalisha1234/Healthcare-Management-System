@@ -4,13 +4,20 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import org.example.HealthcareApp;
 import org.example.models.Patient;
+import org.example.models.PatientNote;
+import org.example.models.MedicalLog;
 import org.example.services.PatientService;
+import org.example.services.PatientNoteService;
+import org.example.services.MedicalLogService;
 import org.example.utils.SearchUtil;
 import org.example.utils.ValidationException;
+import org.example.utils.SessionManager;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class PatientController {
@@ -32,11 +39,15 @@ public class PatientController {
     @FXML private Label lblCacheStatus;
 
     private PatientService patientService;
+    private PatientNoteService noteService;
+    private MedicalLogService logService;
     private List<Patient> allPatients;
 
     @FXML
     public void initialize() {
         patientService = PatientService.getInstance(HealthcareApp.getConnection());
+        noteService = PatientNoteService.getInstance();
+        logService = MedicalLogService.getInstance();
 
         // Setup table columns
         colId.setCellValueFactory(new PropertyValueFactory<>("patientID"));
@@ -94,6 +105,18 @@ public class PatientController {
             );
 
             patientService.registerPatient(patient);
+            
+            // Log to MongoDB
+            String username = SessionManager.getCurrentUser() != null ? 
+                SessionManager.getCurrentUser().getUsername() : "System";
+            MedicalLog log = new MedicalLog(
+                patient.getPatientID(),
+                "Patient Registered",
+                "New patient: " + patient.getFirstName() + " " + patient.getLastName(),
+                username
+            );
+            logService.addLog(log);
+            
             showAlert("Success", "Patient registered successfully!", Alert.AlertType.INFORMATION);
             clearForm();
             loadPatients();
@@ -122,6 +145,18 @@ public class PatientController {
             selected.setAddress(txtAddress.getText());
 
             patientService.updatePatient(selected);
+            
+            // Log to MongoDB
+            String username = SessionManager.getCurrentUser() != null ? 
+                SessionManager.getCurrentUser().getUsername() : "System";
+            MedicalLog log = new MedicalLog(
+                selected.getPatientID(),
+                "Patient Updated",
+                "Updated patient information",
+                username
+            );
+            logService.addLog(log);
+            
             showAlert("Success", "Patient updated successfully!", Alert.AlertType.INFORMATION);
             clearForm();
             loadPatients();
@@ -142,6 +177,18 @@ public class PatientController {
 
         try {
             patientService.deletePatient(selected.getPatientID());
+            
+            // Log to MongoDB
+            String username = SessionManager.getCurrentUser() != null ? 
+                SessionManager.getCurrentUser().getUsername() : "System";
+            MedicalLog log = new MedicalLog(
+                selected.getPatientID(),
+                "Patient Deleted",
+                "Deleted patient: " + selected.getFirstName() + " " + selected.getLastName(),
+                username
+            );
+            logService.addLog(log);
+            
             showAlert("Success", "Patient deleted successfully!", Alert.AlertType.INFORMATION);
             clearForm();
             loadPatients();
@@ -191,6 +238,92 @@ public class PatientController {
         txtPhone.clear();
         txtAddress.clear();
         patientTable.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    private void handleAddNote() {
+        Patient selected = patientTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("Warning", "Please select a patient to add a note", Alert.AlertType.WARNING);
+            return;
+        }
+
+        Dialog<PatientNote> dialog = new Dialog<>();
+        dialog.setTitle("Add Patient Note");
+        dialog.setHeaderText("Add note for: " + selected.getFirstName() + " " + selected.getLastName());
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        ComboBox<String> noteType = new ComboBox<>();
+        noteType.getItems().addAll("Consultation", "Diagnosis", "Treatment", "Follow-up", "General");
+        noteType.setValue("General");
+        
+        TextArea noteText = new TextArea();
+        noteText.setPromptText("Enter note details...");
+        noteText.setPrefRowCount(5);
+
+        grid.add(new Label("Type:"), 0, 0);
+        grid.add(noteType, 1, 0);
+        grid.add(new Label("Note:"), 0, 1);
+        grid.add(noteText, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                Integer doctorID = SessionManager.getCurrentUser() != null ? 
+                    SessionManager.getCurrentUser().getUserID() : 0;
+                return new PatientNote(selected.getPatientID(), doctorID, 
+                    noteText.getText(), noteType.getValue());
+            }
+            return null;
+        });
+
+        Optional<PatientNote> result = dialog.showAndWait();
+        result.ifPresent(note -> {
+            noteService.addNote(note);
+            showAlert("Success", "Note added successfully!", Alert.AlertType.INFORMATION);
+        });
+    }
+
+    @FXML
+    private void handleViewNotes() {
+        Patient selected = patientTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("Warning", "Please select a patient to view notes", Alert.AlertType.WARNING);
+            return;
+        }
+
+        List<PatientNote> notes = noteService.getNotesByPatient(selected.getPatientID());
+        
+        StringBuilder notesText = new StringBuilder();
+        if (notes.isEmpty()) {
+            notesText.append("No notes found for this patient.");
+        } else {
+            for (PatientNote note : notes) {
+                notesText.append("Type: ").append(note.getType()).append("\n");
+                notesText.append("Date: ").append(note.getTimestamp()).append("\n");
+                notesText.append("Note: ").append(note.getNote()).append("\n");
+                notesText.append("---\n\n");
+            }
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Patient Notes");
+        alert.setHeaderText("Notes for: " + selected.getFirstName() + " " + selected.getLastName());
+        
+        TextArea textArea = new TextArea(notesText.toString());
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setPrefRowCount(15);
+        
+        alert.getDialogPane().setContent(textArea);
+        alert.showAndWait();
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {

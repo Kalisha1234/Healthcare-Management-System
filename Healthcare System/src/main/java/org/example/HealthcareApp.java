@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.config.DBConfig;
+import org.example.config.MongoDBConfig;
 import org.example.db.DatabaseInitializer;
 import org.example.utils.DataSeeder;
 
@@ -17,6 +18,7 @@ public class HealthcareApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         // Initialize database
         DBConfig dbConfig = new DBConfig();
+
         connection = dbConfig.connect();
         DatabaseInitializer.initializeAll(connection);
         
@@ -39,6 +41,7 @@ public class HealthcareApp extends Application {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
+        MongoDBConfig.close();
     }
 
     public static Connection getConnection() {
