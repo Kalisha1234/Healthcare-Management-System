@@ -66,17 +66,22 @@ public class PatientService {
     }
 
     public List<Patient> getAllPatients() throws SQLException {
+        long startTime = System.nanoTime();
+        
         // Check cache first
         List<Patient> cached = cache.getList(ALL_PATIENTS_KEY);
         if (cached != null) {
-            System.out.println("✓ Cache HIT - Patients loaded from cache");
+            long duration = (System.nanoTime() - startTime) / 1_000_000;
+            System.out.println("✓ Cache HIT - Patients loaded from cache (" + duration + "ms)");
             return cached;
         }
         
         // Fetch from database and cache
-        System.out.println("✗ Cache MISS - Patients loaded from database");
         List<Patient> patients = patientDAO.findAll();
         cache.putList(ALL_PATIENTS_KEY, patients);
+        
+        long duration = (System.nanoTime() - startTime) / 1_000_000;
+        System.out.println("✗ Cache MISS - Patients loaded from database (" + duration + "ms)");
         return patients;
     }
 

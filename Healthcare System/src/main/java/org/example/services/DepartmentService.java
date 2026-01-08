@@ -51,14 +51,20 @@ public class DepartmentService {
     }
 
     public List<Department> getAllDepartments() throws SQLException {
+        long startTime = System.nanoTime();
+        
         List<Department> cached = cache.getList(ALL_DEPARTMENTS_KEY);
         if (cached != null) {
-            System.out.println("✓ Cache HIT - Departments loaded from cache");
+            long duration = (System.nanoTime() - startTime) / 1_000_000;
+            System.out.println("✓ Cache HIT - Departments loaded from cache (" + duration + "ms)");
             return cached;
         }
-        System.out.println("✗ Cache MISS - Departments loaded from database");
+        
         List<Department> departments = departmentDAO.findAll();
         cache.putList(ALL_DEPARTMENTS_KEY, departments);
+        
+        long duration = (System.nanoTime() - startTime) / 1_000_000;
+        System.out.println("✗ Cache MISS - Departments loaded from database (" + duration + "ms)");
         return departments;
     }
 
