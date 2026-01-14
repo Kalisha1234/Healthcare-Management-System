@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Patient (
 -- ============================================
 -- 4. DOCTORS TABLE
 -- ============================================
-CREATE TABLE IF NOT EXISTS Dcotors (
+CREATE TABLE IF NOT EXISTS Doctors (
     DoctorID SERIAL PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS Appointments (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
-    FOREIGN KEY (DoctorID) REFERENCES Dcotors(DoctorID) ON DELETE CASCADE
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS Prescriptions (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
-    FOREIGN KEY (DoctorID) REFERENCES Dcotors(DoctorID) ON DELETE CASCADE
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS PatientFeedback (
     FeedbackDate DATE NOT NULL,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
-    FOREIGN KEY (DoctorID) REFERENCES Dcotors(DoctorID) ON DELETE CASCADE
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID) ON DELETE CASCADE
 );
 
 -- ============================================
@@ -140,9 +140,9 @@ CREATE INDEX IF NOT EXISTS idx_patient_name ON Patient(FirstName, LastName);
 CREATE INDEX IF NOT EXISTS idx_patient_phone ON Patient(Phone);
 
 -- Doctor indexes
-CREATE INDEX IF NOT EXISTS idx_doctor_name ON Dcotors(FirstName, LastName);
-CREATE INDEX IF NOT EXISTS idx_doctor_email ON Dcotors(Email);
-CREATE INDEX IF NOT EXISTS idx_doctor_dept ON Dcotors(DepartmentID);
+CREATE INDEX IF NOT EXISTS idx_doctor_name ON Doctors(FirstName, LastName);
+CREATE INDEX IF NOT EXISTS idx_doctor_email ON Doctors(Email);
+CREATE INDEX IF NOT EXISTS idx_doctor_dept ON Doctors(DepartmentID);
 
 -- Appointment indexes
 CREATE INDEX IF NOT EXISTS idx_appointment_patient ON Appointments(PatientID);
@@ -186,7 +186,7 @@ INSERT INTO Patient (FirstName, LastName, DOB, Gender, Email, Phone, Address) VA
 ('Michael', 'Johnson', '1978-03-10', 'Male', 'michael.j@email.com', '1234567892', '789 Pine Rd');
 
 -- Insert sample doctors
-INSERT INTO Dcotors (FirstName, LastName, DepartmentID, Phone, Email, HireDate) VALUES
+INSERT INTO Doctors (FirstName, LastName, DepartmentID, Phone, Email, HireDate) VALUES
 ('Sarah', 'Anderson', 1, '9000000001', 'dr.sarah.anderson@hospital.com', '2015-01-15'),
 ('Robert', 'Martinez', 2, '9000000002', 'dr.robert.martinez@hospital.com', '2016-03-20'),
 ('Lisa', 'Taylor', 3, '9000000003', 'dr.lisa.taylor@hospital.com', '2017-06-10');
@@ -231,7 +231,7 @@ INSERT INTO Appointments (PatientID, DoctorID, AppointmentDate, AppointmentTime,
 -- DROP TABLE IF EXISTS PrescriptionItems CASCADE;
 -- DROP TABLE IF EXISTS Prescriptions CASCADE;
 -- DROP TABLE IF EXISTS Appointments CASCADE;
--- DROP TABLE IF EXISTS Dcotors CASCADE;
+-- DROP TABLE IF EXISTS Doctors CASCADE;
 -- DROP TABLE IF EXISTS Patient CASCADE;
 -- DROP TABLE IF EXISTS Departments CASCADE;
 -- DROP TABLE IF EXISTS Users CASCADE;
@@ -248,7 +248,7 @@ GROUP BY p.PatientID, p.FirstName, p.LastName;
 
 -- Get doctors with their department names
 SELECT d.DoctorID, d.FirstName, d.LastName, dept.Name as Department
-FROM Dcotors d
+FROM Doctors d
 JOIN Departments dept ON d.DepartmentID = dept.DepartmentID;
 
 -- Get upcoming appointments
@@ -257,6 +257,6 @@ SELECT a.AppointmentID, p.FirstName || ' ' || p.LastName as Patient,
        a.AppointmentDate, a.AppointmentTime, a.Status
 FROM Appointments a
 JOIN Patient p ON a.PatientID = p.PatientID
-JOIN Dcotors d ON a.DoctorID = d.DoctorID
+JOIN Doctors d ON a.DoctorID = d.DoctorID
 WHERE a.AppointmentDate >= CURRENT_DATE
 ORDER BY a.AppointmentDate, a.AppointmentTime;

@@ -13,7 +13,7 @@ public class DoctorDAO {
     }
 
     public void create(Doctor doctor) throws SQLException {
-        String sql = "INSERT INTO Dcotors (FirstName, LastName, DepartmentID, Phone, Email, HireDate) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Doctors (FirstName, LastName, DepartmentID, Phone, Email, HireDate) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, doctor.getFirstName());
             stmt.setString(2, doctor.getLastName());
@@ -31,7 +31,7 @@ public class DoctorDAO {
     }
 
     public Doctor findById(Integer id) throws SQLException {
-        String sql = "SELECT * FROM Dcotors WHERE DoctorID = ?";
+        String sql = "SELECT * FROM Doctors WHERE DoctorID = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -44,7 +44,7 @@ public class DoctorDAO {
 
     public List<Doctor> findAll() throws SQLException {
         List<Doctor> doctors = new ArrayList<>();
-        String sql = "SELECT * FROM Dcotors";
+        String sql = "SELECT * FROM Doctors";
         try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 doctors.add(mapResultSet(rs));
@@ -54,7 +54,7 @@ public class DoctorDAO {
     }
 
     public void update(Doctor doctor) throws SQLException {
-        String sql = "UPDATE Dcotors SET FirstName=?, LastName=?, DepartmentID=?, Phone=?, Email=?, HireDate=?, UpdatedAt=CURRENT_TIMESTAMP WHERE DoctorID=?";
+        String sql = "UPDATE Doctors SET FirstName=?, LastName=?, DepartmentID=?, Phone=?, Email=?, HireDate=?, UpdatedAt=CURRENT_TIMESTAMP WHERE DoctorID=?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, doctor.getFirstName());
             stmt.setString(2, doctor.getLastName());
@@ -68,7 +68,7 @@ public class DoctorDAO {
     }
 
     public void delete(Integer id) throws SQLException {
-        String sql = "DELETE FROM Dcotors WHERE DoctorID = ?";
+        String sql = "DELETE FROM Doctors WHERE DoctorID = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

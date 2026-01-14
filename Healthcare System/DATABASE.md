@@ -78,7 +78,7 @@ See `Hospital-Management.jpg` for visual representation.
 
 **3NF Compliance**: ✓ All attributes depend only on PatientID
 
-#### 4. Dcotors (Doctors)
+#### 4. Doctors (Doctors)
 **Purpose**: Doctor profiles and assignments
 
 | Column | Type | Constraints | Description |
@@ -105,7 +105,7 @@ See `Hospital-Management.jpg` for visual representation.
 |--------|------|-------------|-------------|
 | AppointmentID | SERIAL | PRIMARY KEY | Auto-incrementing appointment ID |
 | PatientID | INT | FOREIGN KEY, NOT NULL | Reference to Patient |
-| DoctorID | INT | FOREIGN KEY, NOT NULL | Reference to Dcotors |
+| DoctorID | INT | FOREIGN KEY, NOT NULL | Reference to Doctors |
 | AppointmentDate | DATE | NOT NULL | Appointment date |
 | AppointmentTime | TIME | NOT NULL | Appointment time |
 | Status | VARCHAR(20) | NOT NULL, CHECK | Scheduled/Completed/Cancelled |
@@ -114,7 +114,7 @@ See `Hospital-Management.jpg` for visual representation.
 
 **Foreign Keys**:
 - PatientID → Patient(PatientID) ON DELETE CASCADE
-- DoctorID → Dcotors(DoctorID) ON DELETE CASCADE
+- DoctorID → Doctors(DoctorID) ON DELETE CASCADE
 
 **3NF Compliance**: ✓ Patient/Doctor names not stored (retrieved via FKs)
 
@@ -125,7 +125,7 @@ See `Hospital-Management.jpg` for visual representation.
 |--------|------|-------------|-------------|
 | PrescriptionID | SERIAL | PRIMARY KEY | Auto-incrementing prescription ID |
 | PatientID | INT | FOREIGN KEY, NOT NULL | Reference to Patient |
-| DoctorID | INT | FOREIGN KEY, NOT NULL | Reference to Dcotors |
+| DoctorID | INT | FOREIGN KEY, NOT NULL | Reference to Doctors |
 | PrescriptionDate | DATE | NOT NULL | Prescription date |
 | Notes | TEXT | | Additional notes |
 | CreatedAt | TIMESTAMP | DEFAULT NOW | Record creation time |
@@ -133,7 +133,7 @@ See `Hospital-Management.jpg` for visual representation.
 
 **Foreign Keys**:
 - PatientID → Patient(PatientID) ON DELETE CASCADE
-- DoctorID → Dcotors(DoctorID) ON DELETE CASCADE
+- DoctorID → Doctors(DoctorID) ON DELETE CASCADE
 
 **3NF Compliance**: ✓ Medication details in separate table
 
@@ -162,7 +162,7 @@ See `Hospital-Management.jpg` for visual representation.
 |--------|------|-------------|-------------|
 | FeedbackID | SERIAL | PRIMARY KEY | Auto-incrementing feedback ID |
 | PatientID | INT | FOREIGN KEY, NOT NULL | Reference to Patient |
-| DoctorID | INT | FOREIGN KEY, NOT NULL | Reference to Dcotors |
+| DoctorID | INT | FOREIGN KEY, NOT NULL | Reference to Doctors |
 | Rating | INT | CHECK (1-5) | Rating 1-5 stars |
 | Comments | TEXT | | Feedback comments |
 | FeedbackDate | DATE | NOT NULL | Feedback date |
@@ -170,7 +170,7 @@ See `Hospital-Management.jpg` for visual representation.
 
 **Foreign Keys**:
 - PatientID → Patient(PatientID) ON DELETE CASCADE
-- DoctorID → Dcotors(DoctorID) ON DELETE CASCADE
+- DoctorID → Doctors(DoctorID) ON DELETE CASCADE
 
 **3NF Compliance**: ✓ No transitive dependencies
 
@@ -238,7 +238,7 @@ Performance optimization through strategic indexing:
 **Fields**:
 - `_id`: MongoDB auto-generated ID
 - `patientID`: Reference to PostgreSQL Patient.PatientID
-- `doctorID`: Reference to PostgreSQL Dcotors.DoctorID
+- `doctorID`: Reference to PostgreSQL Doctors.DoctorID
 - `note`: Free-form text note
 - `type`: Consultation, Diagnosis, Treatment, Follow-up, General
 - `timestamp`: ISO 8601 datetime string
@@ -296,7 +296,7 @@ Performance optimization through strategic indexing:
 ### Unique Constraints
 - `Users.Username`: Prevents duplicate usernames
 - `Patient.Email`: Prevents duplicate patient emails
-- `Dcotors.Email`: Prevents duplicate doctor emails
+- `Doctors.Email`: Prevents duplicate doctor emails
 
 ### Not Null Constraints
 - All critical fields marked NOT NULL

@@ -5,7 +5,7 @@ import java.sql.*;
 public class DoctorTableInitializer {
     public static void initialize(Connection conn) {
         String SQL = """
-                CREATE TABLE IF NOT EXISTS Dcotors (
+                CREATE TABLE IF NOT EXISTS Doctors (
                     DoctorID SERIAL PRIMARY KEY,
                     FirstName VARCHAR(100) NOT NULL,
                     LastName VARCHAR(100) NOT NULL,
@@ -22,7 +22,7 @@ public class DoctorTableInitializer {
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(SQL);
         } catch (SQLException e) {
-            throw new RuntimeException("Error initializing Dcotors table", e);
+            throw new RuntimeException("Error initializing Doctors table", e);
         }
     }
 }

@@ -81,7 +81,7 @@ See `Hospital-Management.jpg` for ERD diagram.
 1. **Users** - System users
 2. **Departments** - Hospital departments
 3. **Patient** - Patient information
-4. **Dcotors** - Doctor profiles
+4. **Doctors** - Doctor profiles
 5. **Appointments** - Appointment scheduling
 6. **Prescriptions** - Prescription records
 7. **PrescriptionItems** - Prescription line items

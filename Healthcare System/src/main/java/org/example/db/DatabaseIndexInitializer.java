@@ -11,9 +11,9 @@ public class DatabaseIndexInitializer {
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_patient_phone ON Patient(Phone)");
             
             // Doctor indexes
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_doctor_name ON Dcotors(FirstName, LastName)");
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_doctor_email ON Dcotors(Email)");
-            stmt.execute("CREATE INDEX IF NOT EXISTS idx_doctor_dept ON Dcotors(DepartmentID)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_doctor_name ON Doctors(FirstName, LastName)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_doctor_email ON Doctors(Email)");
+            stmt.execute("CREATE INDEX IF NOT EXISTS idx_doctor_dept ON Doctors(DepartmentID)");
             
             // Appointment indexes
             stmt.execute("CREATE INDEX IF NOT EXISTS idx_appointment_patient ON Appointments(PatientID)");

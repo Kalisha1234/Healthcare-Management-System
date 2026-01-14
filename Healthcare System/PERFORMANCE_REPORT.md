@@ -35,9 +35,9 @@ CREATE INDEX idx_patient_name ON Patient(FirstName, LastName);
 CREATE INDEX idx_patient_phone ON Patient(Phone);
 
 -- Doctor indexes
-CREATE INDEX idx_doctor_name ON Dcotors(FirstName, LastName);
-CREATE INDEX idx_doctor_email ON Dcotors(Email);
-CREATE INDEX idx_doctor_dept ON Dcotors(DepartmentID);
+CREATE INDEX idx_doctor_name ON Doctors(FirstName, LastName);
+CREATE INDEX idx_doctor_email ON Doctors(Email);
+CREATE INDEX idx_doctor_dept ON Doctors(DepartmentID);
 
 -- Appointment indexes
 CREATE INDEX idx_appointment_patient ON Appointments(PatientID);
