@@ -14,7 +14,7 @@ public class MainController {
 
     @FXML
     private void showDashboard() {
-        // Dashboard view - can be implemented later
+        loadView("/fxml/DashboardView.fxml");
     }
 
     @FXML

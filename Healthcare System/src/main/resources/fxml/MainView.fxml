@@ -31,7 +31,7 @@
             
             <Region VBox.vgrow="ALWAYS"/>
             
-            <Button text="⚙️ Settings" styleClass="nav-button" maxWidth="Infinity"/>
+<!--            <Button text="⚙️ Settings" styleClass="nav-button" maxWidth="Infinity"/>-->
             <Button text="🚪 Logout" styleClass="nav-button" maxWidth="Infinity" onAction="#handleLogout"/>
         </VBox>
     </left>

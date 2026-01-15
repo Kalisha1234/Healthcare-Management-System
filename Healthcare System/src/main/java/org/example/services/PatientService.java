@@ -48,6 +48,8 @@ public class PatientService {
         patientDAO.create(patient);
         
         // Invalidate cache after create
+        //Create  Operations affect list of patients since there have been new additions
+        // Caches must be invalidated since our cache is now not up to date
         cache.invalidateListCaches();
     }
 
@@ -56,11 +58,13 @@ public class PatientService {
         if (cache.containsKey(id)) {
             return cache.get(id);
         }
+        //if we found the item in the cache..we have increased performance by avoiding a DB call
         
         // Fetch from database and cache
         Patient patient = patientDAO.findById(id);
         if (patient != null) {
             cache.put(id, patient);
+            //if the item was found in the DB we add it to the cache for future requests
         }
         return patient;
     }

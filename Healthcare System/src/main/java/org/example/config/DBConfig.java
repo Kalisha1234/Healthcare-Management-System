@@ -8,7 +8,7 @@ public class DBConfig {
 //    private final String DBNAME = System.getenv("DB_NAME");
 //    private final String DBUSER = System.getenv("DB_USER");
 //    private final String DBPASSWORD = System.getenv("DB_PASSWORD");
-
+//jdbc connection
     public Connection connect() throws SQLException {
 //        if(DBPASSWORD == null) {
 //            throw new SQLException("DB_PASSWORD environment variable is not set.");

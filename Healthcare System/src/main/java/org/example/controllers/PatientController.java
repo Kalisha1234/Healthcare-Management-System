@@ -64,6 +64,7 @@ public class PatientController {
     }
 
     @FXML
+    //search patients by name, email, phone
     private void handleSearch() {
         try {
             String query = txtSearch.getText();
