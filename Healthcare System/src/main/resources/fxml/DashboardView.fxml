@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="org.example.controllers.DashboardController" 
+      spacing="20" style="-fx-background-color: #f5f7fa;">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+    
+    <Label text="Dashboard" styleClass="title-label"/>
+    
+    <Label text="System Overview" styleClass="section-label">
+        <VBox.margin>
+            <Insets top="10"/>
+        </VBox.margin>
+    </Label>
+    
+    <!-- Statistics Cards -->
+    <GridPane hgap="20" vgap="20">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="33.33"/>
+            <ColumnConstraints percentWidth="33.33"/>
+            <ColumnConstraints percentWidth="33.33"/>
+        </columnConstraints>
+        
+        <!-- Patients Card -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="0" style="-fx-border-color: #3498db; -fx-border-width: 0 0 4 0;">
+            <Label text="👥 Total Patients" styleClass="stat-label"/>
+            <Label fx:id="lblPatientCount" text="0" styleClass="stat-value" style="-fx-text-fill: #3498db;"/>
+        </VBox>
+        
+        <!-- Doctors Card -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="1" style="-fx-border-color: #27ae60; -fx-border-width: 0 0 4 0;">
+            <Label text="👨‍⚕️ Total Doctors" styleClass="stat-label"/>
+            <Label fx:id="lblDoctorCount" text="0" styleClass="stat-value" style="-fx-text-fill: #27ae60;"/>
+        </VBox>
+        
+        <!-- Appointments Card -->
+        <VBox styleClass="stat-card" spacing="10" GridPane.columnIndex="2" style="-fx-border-color: #e67e22; -fx-border-width: 0 0 4 0;">
+            <Label text="📅 Total Appointments" styleClass="stat-label"/>
+            <Label fx:id="lblAppointmentCount" text="0" styleClass="stat-value" style="-fx-text-fill: #e67e22;"/>
+        </VBox>
+    </GridPane>
+</VBox>
